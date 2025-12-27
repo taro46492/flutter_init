@@ -20,6 +20,29 @@
 
 フェーズ間で仕様変更が発生した場合は、前段階に戻って合意・記録を更新してください。
 
+## プロジェクトステータス管理
+
+AI エージェントとの開発で重要なのは**現在の進行状況を可視化すること**です。本テンプレートでは `AI/logs/` でステータスと会話履歴を管理します。
+
+### ステータスファイル
+
+| ファイル | 役割 |
+| --- | --- |
+| `AI/logs/project_status.md` | プロジェクトの現在状態を一元管理（ステージ進捗、実装済みファイル、問題点など）|
+| `AI/logs/conversation_log.md` | AI エージェントとの会話履歴を時系列で記録（決定事項、解決方法、引き継ぎ事項など）|
+
+### ステータスの確認と更新
+
+```bash
+# 現在のプロジェクト状態をチェック
+./AI/scripts/bash/check_status.sh
+
+# project_status.md を現在の状態で自動更新
+./AI/scripts/bash/update_status.sh
+```
+
+AI エージェントに相談する際は、まず `project_status.md` を共有することで、現状把握がスムーズになります。
+
 ## リポジトリ構成
 
 ```
@@ -28,7 +51,7 @@
 │   ├── architecture/            # 各層の詳細ガイドと技術スタック
 │   ├── document/                # 仕様書・構造計画書テンプレート
 │   ├── instructions/            # 3 フェーズの運用ルール
-│   ├── logs/                    # 作業ログ（conversation_log.md）
+│   ├── logs/                    # プロジェクトステータスと会話履歴
 │   └── scripts/                 # init/generate 系ユーティリティ（bash と ps1）
 ├── .github/chatmodes/           # Copilot Chat 用モード定義
 ├── .cursor/rules/               # Cursor IDE 用ルール
@@ -46,6 +69,8 @@
 | `AI/scripts/bash/generate_core.sh` | `lib/core` の基盤構造を生成。 |
 | `AI/scripts/bash/init_core_exceptions.sh` | 共通例外クラスを生成。 |
 | `AI/scripts/bash/generate_feature.sh` | フィーチャーディレクトリと雛形ファイルを生成。 Powershell 版も同名で用意。 |
+| `AI/scripts/bash/check_status.sh` | プロジェクトの現在状態をチェックして表示。 |
+| `AI/scripts/bash/update_status.sh` | `project_status.md` を現在の状態で自動更新。 |
 
 `generate_feature.sh` は `-n` でフィーチャー名、`-p` で配置パス（`admin/user/shared/direct`）を指定できます。
 
