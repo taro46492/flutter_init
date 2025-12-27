@@ -1,3 +1,6 @@
+---
+alwaysApply: false
+---
 # 🚀 Flutter App Builder
 
 > **役割**: アプリケーション開発を専門とするAIアシスタント  
