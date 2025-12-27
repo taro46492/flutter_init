@@ -30,9 +30,14 @@ AI エージェントとの開発で重要なのは**現在の進行状況を可
 | --- | --- |
 | `AI/logs/project_status.md` | プロジェクトの現在状態を一元管理（ステージ進捗、実装済みファイル、問題点など）|
 | `AI/logs/conversation_log.md` | AI エージェントとの会話履歴を時系列で記録（決定事項、解決方法、引き継ぎ事項など）|
+| `AI/logs/structure_violations.md` | ディレクトリ構造と命名規則の違反を記録 |
+| `AI/logs/change_history.md` | ファイルの変更履歴を時系列で記録 |
+| `AI/architecture/directory_structure_and_naming_rules.md` | ディレクトリ構造とファイル命名規則の完全なリファレンス（静的） |
+| `AI/document/current_structure.md` | 現在のプロジェクト構造のスナップショット（動的・自動生成） |
 
 ### ステータスの確認と更新
 
+**スクリプトから直接実行:**
 ```bash
 # 現在のプロジェクト状態をチェック
 ./AI/scripts/bash/check_status.sh
@@ -41,7 +46,20 @@ AI エージェントとの開発で重要なのは**現在の進行状況を可
 ./AI/scripts/bash/update_status.sh
 ```
 
-AI エージェントに相談する際は、まず `project_status.md` を共有することで、現状把握がスムーズになります。
+**ワークフローから実行（推奨）:**
+
+AI エージェントとの会話中に、以下のスラッシュコマンドで実行できます:
+
+| コマンド | 説明 |
+| --- | --- |
+| `/status check` | プロジェクト状態をチェックして表示 |
+| `/status update` | `project_status.md`を現在の状態で自動更新 |
+| `/status snapshot` | `current_structure.md`にスナップショット出力 |
+| `/status report` | check + update + snapshot を実行（推奨） |
+| `/validate_structure` | ディレクトリ構造の違反を検出 |
+| `/detect_changes` | ファイルの変更を検出して記録 |
+
+AI エージェントに相談する際は、まず `/status report` を実行することで、現状把握がスムーズになります。
 
 ## リポジトリ構成
 
@@ -69,10 +87,29 @@ AI エージェントに相談する際は、まず `project_status.md` を共�
 | `AI/scripts/bash/generate_core.sh` | `lib/core` の基盤構造を生成。 |
 | `AI/scripts/bash/init_core_exceptions.sh` | 共通例外クラスを生成。 |
 | `AI/scripts/bash/generate_feature.sh` | フィーチャーディレクトリと雛形ファイルを生成。 Powershell 版も同名で用意。 |
-| `AI/scripts/bash/check_status.sh` | プロジェクトの現在状態をチェックして表示。 |
-| `AI/scripts/bash/update_status.sh` | `project_status.md` を現在の状態で自動更新。 |
+| `AI/scripts/bash/status.sh` | プロジェクトステータス管理（check/update/snapshot/report）を統合。 |
+| `AI/scripts/bash/validate_structure.sh` | ディレクトリ構造とファイル命名規則の違反を検出して `structure_violations.md` に記録。 |
+| `AI/scripts/bash/detect_changes.sh` | ファイルの変更を検出して `change_history.md` に記録。 |
 
 `generate_feature.sh` は `-n` でフィーチャー名、`-p` で配置パス（`admin/user/shared/direct`）を指定できます。
+
+### status.sh の使い方
+
+プロジェクトステータス管理の機能を統合したスクリプトです:
+
+```bash
+# 状態をチェックして表示
+./AI/scripts/bash/status.sh check
+
+# project_status.md を更新
+./AI/scripts/bash/status.sh update
+
+# current_structure.md にスナップショット出力
+./AI/scripts/bash/status.sh snapshot
+
+# すべて実行（推奨）
+./AI/scripts/bash/status.sh report
+```
 
 ## 実装ガイドライン
 
