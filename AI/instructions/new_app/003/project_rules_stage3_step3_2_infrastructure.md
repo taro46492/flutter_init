@@ -10,3 +10,24 @@
 - [ ] リモートデータソースの例外処理ファイル生成（`2_data_sources/2_remote/exceptions/` ディレクトリ内）
 - [ ] AI/architecture/lib/features/2_infrastructure/3_repositories/instructions.md　を確認後　repositories ファイル生成
 - [ ] `flutter analyze` 実行・検証
+
+## ステータス管理とログ記録
+
+### このステップで実行するコマンド
+
+// turbo
+```
+# 構造検証（命名規則・ディレクトリ構造）
+/validate_structure
+
+# 実装内容をステータスに反映
+/status update
+
+# flutter analyzeで静的解析
+/flutter_analyze
+```
+
+### 目的
+- Infrastructure層の実装が構造規則に準拠しているか検証
+- ファイル命名規則を厳密にチェック
+- 実装進捗をproject_status.mdに記録

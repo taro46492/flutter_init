@@ -22,3 +22,23 @@
         - `Notifier`に付けた`@riverpod`アノテーションによって**自動で生成されるProvider**です。（例: `userNotifierProvider`）
         - UIと`Notifier`の実装を切り離すための、**唯一の安全なアクセスポイント（窓口）**として機能します。
         - UIは常にこのProviderを介してのみ、状態を購読（`watch`）したり`Notifier`のメソッドを呼び出したりします。
+
+## ステータス管理とログ記録
+
+### このステップで実行するコマンド
+
+```bash
+# 構造検証（命名規則・ディレクトリ構造）
+/validate_structure
+
+# 実装内容をステータスに反映
+/status update
+
+# flutter analyzeで静的解析
+/flutter_analyze
+```
+
+### 目的
+- Application層の実装が構造規則に準拠しているか検証
+- ファイル命名規則を厳密にチェック
+- 実装進捗をproject_status.mdに記録
