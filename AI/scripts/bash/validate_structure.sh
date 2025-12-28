@@ -268,6 +268,13 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                 done
               elif [ "$subdir_name" = "2_data_sources" ]; then
                 # 2_data_sources のサブディレクトリチェック
+                # 2_data_sources 直下には .dart ファイルを許可しない
+                for file in "$subdir"/*.dart; do
+                  if [ -f "$file" ]; then
+                    VIOLATIONS+=("lib/features/$feature_rel/2_infrastructure/2_data_sources/ 配下に不正なファイル: $(basename "$file") (サブディレクトリのみ許可)")
+                  fi
+                done
+
                 for ds_subdir in "$subdir"/*; do
                   if [ ! -e "$ds_subdir" ]; then continue; fi
                   ds_subdir_name=$(basename "$ds_subdir")
@@ -284,12 +291,14 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                         if [[ "$filename" =~ \.(freezed|g)\.dart$ ]]; then continue; fi
                         
                         if [ "$ds_subdir_name" = "1_local" ]; then
-                          if [[ ! "$filename" =~ ^[a-z_]+_local_data_source\.dart$ ]]; then
-                            VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/2_data_sources/1_local/$filename (期待: {name}_local_data_source.dart)")
+                          # インターフェース(_local_data_source.dart)または実装(_local_data_source_impl.dart)を許可
+                          if [[ ! "$filename" =~ ^[a-z_]+_local_data_source(_impl)?\.dart$ ]]; then
+                            VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/2_data_sources/1_local/$filename (期待: {name}_local_data_source.dart または {name}_local_data_source_impl.dart)")
                           fi
                         elif [ "$ds_subdir_name" = "2_remote" ]; then
-                          if [[ ! "$filename" =~ ^[a-z_]+_remote_data_source\.dart$ ]]; then
-                            VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/2_data_sources/2_remote/$filename (期待: {name}_remote_data_source.dart)")
+                          # インターフェース(_remote_data_source.dart)または実装(_remote_data_source_impl.dart)を許可
+                          if [[ ! "$filename" =~ ^[a-z_]+_remote_data_source(_impl)?\.dart$ ]]; then
+                            VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/2_data_sources/2_remote/$filename (期待: {name}_remote_data_source.dart または {name}_remote_data_source_impl.dart)")
                           fi
                         fi
                       done
