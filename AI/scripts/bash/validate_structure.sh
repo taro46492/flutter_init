@@ -205,6 +205,8 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                   for file in "$subdir"/*.dart; do
                     if [ ! -f "$file" ]; then continue; fi
                     filename=$(basename "$file")
+                    # 生成ファイル(.freezed.dart, .g.dart)はスキップ
+                    if [[ "$filename" =~ \.(freezed|g)\.dart$ ]]; then continue; fi
                     
                     case "$subdir_name" in
                       "1_entities")
@@ -250,6 +252,8 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                 for file in "$subdir"/*.dart; do
                   if [ ! -f "$file" ]; then continue; fi
                   filename=$(basename "$file")
+                  # 生成ファイル(.freezed.dart, .g.dart)はスキップ
+                  if [[ "$filename" =~ \.(freezed|g)\.dart$ ]]; then continue; fi
                   if [[ ! "$filename" =~ ^[a-z_]+_model\.dart$ ]]; then
                     VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/1_models/$filename (期待: {name}_model.dart)")
                   fi
@@ -276,6 +280,8 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                       for file in "$ds_subdir"/*.dart; do
                         if [ ! -f "$file" ]; then continue; fi
                         filename=$(basename "$file")
+                        # 生成ファイル(.freezed.dart, .g.dart)はスキップ
+                        if [[ "$filename" =~ \.(freezed|g)\.dart$ ]]; then continue; fi
                         
                         if [ "$ds_subdir_name" = "1_local" ]; then
                           if [[ ! "$filename" =~ ^[a-z_]+_local_data_source\.dart$ ]]; then
@@ -308,6 +314,8 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                   for file in "$subdir"/*.dart; do
                     if [ ! -f "$file" ]; then continue; fi
                     filename=$(basename "$file")
+                    # 生成ファイル(.freezed.dart, .g.dart)はスキップ
+                    if [[ "$filename" =~ \.(freezed|g)\.dart$ ]]; then continue; fi
                     
                     case "$subdir_name" in
                       "1_states")
@@ -348,6 +356,8 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                 for file in "$subdir"/*.dart; do
                   if [ ! -f "$file" ]; then continue; fi
                   filename=$(basename "$file")
+                  # 生成ファイル(.freezed.dart, .g.dart)はスキップ
+                  if [[ "$filename" =~ \.(freezed|g)\.dart$ ]]; then continue; fi
                   if [[ ! "$filename" =~ ^[a-z_]+_page\.dart$ ]]; then
                     VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/4_presentation/2_pages/$filename (期待: {name}_page.dart)")
                   fi
@@ -366,6 +376,8 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                       for file in "$widget_subdir"/*.dart; do
                         if [ ! -f "$file" ]; then continue; fi
                         filename=$(basename "$file")
+                        # 生成ファイル(.freezed.dart, .g.dart)はスキップ
+                        if [[ "$filename" =~ \.(freezed|g)\.dart$ ]]; then continue; fi
                         
                         case "$widget_subdir_name" in
                           "1_atoms")
