@@ -161,24 +161,34 @@ fi
 
 # lib/features/配下のチェック
 if [ -d "$PROJECT_ROOT/lib/features" ]; then
-  # features直下のディレクトリをチェック（各フィーチャー）
-  for feature_dir in "$PROJECT_ROOT/lib/features"/*; do
-    if [ ! -d "$feature_dir" ]; then continue; fi
-    
-    feature_name=$(basename "$feature_dir")
-    
+  has_any_layer_dir() {
+    local dir="$1"
+    local layer
+    for layer in "${VALID_LAYERS[@]}"; do
+      if [ -e "$dir/$layer" ]; then
+        return 0
+      fi
+    done
+    return 1
+  }
+
+  validate_feature_dir() {
+    local feature_dir="$1"
+    local feature_rel="$2"
+
     # 各フィーチャー内の層をチェック
     for layer_dir in "$feature_dir"/*; do
       if [ ! -e "$layer_dir" ]; then continue; fi
-      
+
+      local layer_name
       layer_name=$(basename "$layer_dir")
-      
+
       # 許可された層かチェック
       if [[ ! " ${VALID_LAYERS[@]} " =~ " ${layer_name} " ]]; then
-        VIOLATIONS+=("lib/features/$feature_name/ 配下に不正な層: $layer_name")
+        VIOLATIONS+=("lib/features/$feature_rel/ 配下に不正な層: $layer_name")
         continue
       fi
-      
+
       # 層ごとの詳細チェック
       case "$layer_name" in
         "1_domain")
@@ -188,7 +198,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
               subdir_name=$(basename "$subdir")
               
               if [[ ! " ${VALID_DOMAIN[@]} " =~ " ${subdir_name} " ]]; then
-                VIOLATIONS+=("lib/features/$feature_name/1_domain/ 配下に不正なディレクトリ: $subdir_name")
+                VIOLATIONS+=("lib/features/$feature_rel/1_domain/ 配下に不正なディレクトリ: $subdir_name")
               else
                 # ファイル命名規則のチェック
                 if [ -d "$subdir" ]; then
@@ -199,22 +209,22 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                     case "$subdir_name" in
                       "1_entities")
                         if [[ ! "$filename" =~ ^[a-z_]+_entity\.dart$ ]]; then
-                          VIOLATIONS+=("命名規則違反: lib/features/$feature_name/1_domain/1_entities/$filename (期待: {name}_entity.dart)")
+                          VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/1_domain/1_entities/$filename (期待: {name}_entity.dart)")
                         fi
                         ;;
                       "2_repositories")
                         if [[ ! "$filename" =~ ^[a-z_]+_repository\.dart$ ]]; then
-                          VIOLATIONS+=("命名規則違反: lib/features/$feature_name/1_domain/2_repositories/$filename (期待: {name}_repository.dart)")
+                          VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/1_domain/2_repositories/$filename (期待: {name}_repository.dart)")
                         fi
                         ;;
                       "3_usecases")
                         if [[ ! "$filename" =~ ^[a-z_]+_usecase\.dart$ ]]; then
-                          VIOLATIONS+=("命名規則違反: lib/features/$feature_name/1_domain/3_usecases/$filename (期待: {verb}_{name}_usecase.dart)")
+                          VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/1_domain/3_usecases/$filename (期待: {verb}_{name}_usecase.dart)")
                         fi
                         ;;
                       "exceptions")
                         if [[ ! "$filename" =~ ^[a-z_]+(exceptions|_exception)\.dart$ ]]; then
-                          VIOLATIONS+=("命名規則違反: lib/features/$feature_name/1_domain/exceptions/$filename (期待: {name}_exceptions.dart または {name}_exception.dart)")
+                          VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/1_domain/exceptions/$filename (期待: {name}_exceptions.dart または {name}_exception.dart)")
                         fi
                         ;;
                     esac
@@ -231,7 +241,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
               subdir_name=$(basename "$subdir")
               
               if [[ ! " ${VALID_INFRASTRUCTURE[@]} " =~ " ${subdir_name} " ]]; then
-                VIOLATIONS+=("lib/features/$feature_name/2_infrastructure/ 配下に不正なディレクトリ: $subdir_name")
+                VIOLATIONS+=("lib/features/$feature_rel/2_infrastructure/ 配下に不正なディレクトリ: $subdir_name")
                 continue
               fi
               
@@ -241,7 +251,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                   if [ ! -f "$file" ]; then continue; fi
                   filename=$(basename "$file")
                   if [[ ! "$filename" =~ ^[a-z_]+_model\.dart$ ]]; then
-                    VIOLATIONS+=("命名規則違反: lib/features/$feature_name/2_infrastructure/1_models/$filename (期待: {name}_model.dart)")
+                    VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/1_models/$filename (期待: {name}_model.dart)")
                   fi
                 done
               elif [ "$subdir_name" = "3_repositories" ]; then
@@ -249,7 +259,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                   if [ ! -f "$file" ]; then continue; fi
                   filename=$(basename "$file")
                   if [[ ! "$filename" =~ ^[a-z_]+_repository_impl\.dart$ ]]; then
-                    VIOLATIONS+=("命名規則違反: lib/features/$feature_name/2_infrastructure/3_repositories/$filename (期待: {name}_repository_impl.dart)")
+                    VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/3_repositories/$filename (期待: {name}_repository_impl.dart)")
                   fi
                 done
               elif [ "$subdir_name" = "2_data_sources" ]; then
@@ -259,7 +269,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                   ds_subdir_name=$(basename "$ds_subdir")
                   
                   if [[ ! " ${VALID_DATA_SOURCES[@]} " =~ " ${ds_subdir_name} " ]]; then
-                    VIOLATIONS+=("lib/features/$feature_name/2_infrastructure/2_data_sources/ 配下に不正なディレクトリ: $ds_subdir_name")
+                    VIOLATIONS+=("lib/features/$feature_rel/2_infrastructure/2_data_sources/ 配下に不正なディレクトリ: $ds_subdir_name")
                   else
                     # データソースのファイル命名規則チェック
                     if [ -d "$ds_subdir" ]; then
@@ -269,11 +279,11 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                         
                         if [ "$ds_subdir_name" = "1_local" ]; then
                           if [[ ! "$filename" =~ ^[a-z_]+_local_data_source\.dart$ ]]; then
-                            VIOLATIONS+=("命名規則違反: lib/features/$feature_name/2_infrastructure/2_data_sources/1_local/$filename (期待: {name}_local_data_source.dart)")
+                            VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/2_data_sources/1_local/$filename (期待: {name}_local_data_source.dart)")
                           fi
                         elif [ "$ds_subdir_name" = "2_remote" ]; then
                           if [[ ! "$filename" =~ ^[a-z_]+_remote_data_source\.dart$ ]]; then
-                            VIOLATIONS+=("命名規則違反: lib/features/$feature_name/2_infrastructure/2_data_sources/2_remote/$filename (期待: {name}_remote_data_source.dart)")
+                            VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/2_infrastructure/2_data_sources/2_remote/$filename (期待: {name}_remote_data_source.dart)")
                           fi
                         fi
                       done
@@ -291,7 +301,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
               subdir_name=$(basename "$subdir")
               
               if [[ ! " ${VALID_APPLICATION[@]} " =~ " ${subdir_name} " ]]; then
-                VIOLATIONS+=("lib/features/$feature_name/3_application/ 配下に不正なディレクトリ: $subdir_name")
+                VIOLATIONS+=("lib/features/$feature_rel/3_application/ 配下に不正なディレクトリ: $subdir_name")
               else
                 # ファイル命名規則のチェック
                 if [ -d "$subdir" ]; then
@@ -302,17 +312,17 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                     case "$subdir_name" in
                       "1_states")
                         if [[ ! "$filename" =~ ^[a-z_]+_state\.dart$ ]]; then
-                          VIOLATIONS+=("命名規則違反: lib/features/$feature_name/3_application/1_states/$filename (期待: {name}_state.dart)")
+                          VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/3_application/1_states/$filename (期待: {name}_state.dart)")
                         fi
                         ;;
                       "2_providers")
                         if [[ ! "$filename" =~ ^[a-z_]+_providers?\.dart$ ]]; then
-                          VIOLATIONS+=("命名規則違反: lib/features/$feature_name/3_application/2_providers/$filename (期待: {name}_providers.dart)")
+                          VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/3_application/2_providers/$filename (期待: {name}_providers.dart)")
                         fi
                         ;;
                       "3_notifiers")
                         if [[ ! "$filename" =~ ^[a-z_]+_notifier\.dart$ ]]; then
-                          VIOLATIONS+=("命名規則違反: lib/features/$feature_name/3_application/3_notifiers/$filename (期待: {name}_notifier.dart)")
+                          VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/3_application/3_notifiers/$filename (期待: {name}_notifier.dart)")
                         fi
                         ;;
                     esac
@@ -329,7 +339,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
               subdir_name=$(basename "$subdir")
               
               if [[ ! " ${VALID_PRESENTATION[@]} " =~ " ${subdir_name} " ]]; then
-                VIOLATIONS+=("lib/features/$feature_name/4_presentation/ 配下に不正なディレクトリ: $subdir_name")
+                VIOLATIONS+=("lib/features/$feature_rel/4_presentation/ 配下に不正なディレクトリ: $subdir_name")
                 continue
               fi
               
@@ -339,7 +349,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                   if [ ! -f "$file" ]; then continue; fi
                   filename=$(basename "$file")
                   if [[ ! "$filename" =~ ^[a-z_]+_page\.dart$ ]]; then
-                    VIOLATIONS+=("命名規則違反: lib/features/$feature_name/4_presentation/2_pages/$filename (期待: {name}_page.dart)")
+                    VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/4_presentation/2_pages/$filename (期待: {name}_page.dart)")
                   fi
                 done
               elif [ "$subdir_name" = "1_widgets" ]; then
@@ -349,7 +359,7 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                   widget_subdir_name=$(basename "$widget_subdir")
                   
                   if [[ ! " ${VALID_WIDGETS[@]} " =~ " ${widget_subdir_name} " ]]; then
-                    VIOLATIONS+=("lib/features/$feature_name/4_presentation/1_widgets/ 配下に不正なディレクトリ: $widget_subdir_name")
+                    VIOLATIONS+=("lib/features/$feature_rel/4_presentation/1_widgets/ 配下に不正なディレクトリ: $widget_subdir_name")
                   else
                     # ウィジェットのファイル命名規則チェック
                     if [ -d "$widget_subdir" ]; then
@@ -360,17 +370,17 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
                         case "$widget_subdir_name" in
                           "1_atoms")
                             if [[ ! "$filename" =~ ^[a-z_]+_atom\.dart$ ]]; then
-                              VIOLATIONS+=("命名規則違反: lib/features/$feature_name/4_presentation/1_widgets/1_atoms/$filename (期待: {name}_atom.dart)")
+                              VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/4_presentation/1_widgets/1_atoms/$filename (期待: {name}_atom.dart)")
                             fi
                             ;;
                           "2_molecules")
                             if [[ ! "$filename" =~ ^[a-z_]+_molecule\.dart$ ]]; then
-                              VIOLATIONS+=("命名規則違反: lib/features/$feature_name/4_presentation/1_widgets/2_molecules/$filename (期待: {name}_molecule.dart)")
+                              VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/4_presentation/1_widgets/2_molecules/$filename (期待: {name}_molecule.dart)")
                             fi
                             ;;
                           "3_organisms")
                             if [[ ! "$filename" =~ ^[a-z_]+_organism\.dart$ ]]; then
-                              VIOLATIONS+=("命名規則違反: lib/features/$feature_name/4_presentation/1_widgets/3_organisms/$filename (期待: {name}_organism.dart)")
+                              VIOLATIONS+=("命名規則違反: lib/features/$feature_rel/4_presentation/1_widgets/3_organisms/$filename (期待: {name}_organism.dart)")
                             fi
                             ;;
                         esac
@@ -383,6 +393,23 @@ if [ -d "$PROJECT_ROOT/lib/features" ]; then
           fi
           ;;
       esac
+    done
+
+  }
+
+  # features直下は「feature直置き」または「権限/namespace配下にfeature」を許可する
+  for features_child in "$PROJECT_ROOT/lib/features"/*; do
+    if [ ! -d "$features_child" ]; then continue; fi
+
+    if has_any_layer_dir "$features_child"; then
+      validate_feature_dir "$features_child" "$(basename "$features_child")"
+      continue
+    fi
+
+    namespace_name=$(basename "$features_child")
+    for feature_dir in "$features_child"/*; do
+      if [ ! -d "$feature_dir" ]; then continue; fi
+      validate_feature_dir "$feature_dir" "$namespace_name/$(basename "$feature_dir")"
     done
   done
 fi
