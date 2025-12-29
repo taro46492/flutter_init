@@ -45,7 +45,7 @@ lib/features/{feature_name}/2_infrastructure/2_data_sources/1_local/
 // user_local_data_source.dart
 import '../../1_models/user_db_model.dart';
 
-abstract class UserLocalDataSource {
+abstract interface class UserLocalDataSource {
   Future<UserDbModel?> getUser(String id);
   Future<List<UserDbModel>> getAllUsers();
   Future<List<UserDbModel>> getUsersByRole(String role);
@@ -220,7 +220,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 #### インターフェース定義
 ```dart
 // settings_local_data_source.dart
-abstract class SettingsLocalDataSource {
+abstract interface class SettingsLocalDataSource {
   Future<String?> getString(String key);
   Future<int?> getInt(String key);
   Future<bool?> getBool(String key);
@@ -406,7 +406,7 @@ class SettingsLocalDataSourceImpl implements SettingsLocalDataSource {
 #### インターフェース定義
 ```dart
 // file_local_data_source.dart
-abstract class FileLocalDataSource {
+abstract interface class FileLocalDataSource {
   Future<String> readTextFile(String fileName);
   Future<void> writeTextFile(String fileName, String content);
   Future<Map<String, dynamic>> readJsonFile(String fileName);
@@ -708,7 +708,7 @@ class CacheEntry<T> {
 ```dart
 // ✅ 良い例: インターフェースファイル
 // user_local_data_source.dart
-abstract class UserLocalDataSource {
+abstract interface class UserLocalDataSource {
   Future<UserDbModel?> getUser(String id);
   // メソッド定義のみ
 }
@@ -721,7 +721,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
 // ❌ 悪い例: 一つのファイルに両方
 // user_local_data_source.dart
-abstract class UserLocalDataSource { /* ... */ }
+abstract interface class UserLocalDataSource { /* ... */ }
 class UserLocalDataSourceImpl implements UserLocalDataSource { /* ... */ }
 ```
 
