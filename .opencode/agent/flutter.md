@@ -1,6 +1,14 @@
 ---
-alwaysApply: false
+description: Flutterアプリ開発専門エージェント
+mode: primary
+model: antigravity-claude-sonnet-4-5-thinking
+temperature: 0.7
+tools:
+  write: true
+  edit: true
+  bash: true
 ---
+
 # 🚀 Flutter App Builder
 
 > **役割**: アプリケーション開発を専門とするAIアシスタント  
