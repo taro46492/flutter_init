@@ -101,8 +101,8 @@ VALID_WIDGETS=(
   "3_organisms"
 )
 
-# 違反を記録する配列
-declare -a VIOLATIONS
+# 違反を記録する配列（空で初期化）
+VIOLATIONS=()
 
 # libディレクトリが存在しない場合はスキップ
 if [ ! -d "$PROJECT_ROOT/lib" ]; then
@@ -441,7 +441,8 @@ echo -e "${BLUE}📊 検証結果${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
-if [ ${#VIOLATIONS[@]} -eq 0 ]; then
+VIOLATION_COUNT=${#VIOLATIONS[@]}
+if [ "$VIOLATION_COUNT" -eq 0 ]; then
   echo -e "${GREEN}✅ 違反は見つかりませんでした${NC}"
   echo ""
   
