@@ -234,3 +234,4 @@ dev_dependencies:
   
   # アイコン生成
   flutter_launcher_icons: ^0.13.1
+  
