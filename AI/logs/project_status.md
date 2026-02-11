@@ -4,7 +4,7 @@
 > AIエージェントは会話開始時にこのファイルを参照して状況を把握します。
 
 最終更新: 2025-12-27 10:52:35
-更新者: haruma (status.sh update)
+更新者: utakata (status.sh update)
 
 ---
 

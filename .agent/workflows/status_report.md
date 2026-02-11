@@ -1,4 +1,3 @@
-```
 ---
 description: プロジェクトステータスをチェックして更新（完全レポート）
 ---
@@ -10,11 +9,17 @@ description: プロジェクトステータスをチェックして更新（完�
 2. project_status.md の更新
 3. current_structure.md のスナップショット生成
 
-AI エージェントとの対話を開始する前に `/status report` を実行すると、最新の状態を把握できます。
+AI エージェントとの対話を開始する前に `/status_report` を実行すると、最新の状態を把握できます。
 
 ## 手順
 
 // turbo
+1. フルレポートを実行
+```bash
+./AI/scripts/bash/status.sh report
+```
+
+## 使用タイミング
 
 - 新しい AI エージェントとの会話開始前
 - 大きな実装を完了した後
