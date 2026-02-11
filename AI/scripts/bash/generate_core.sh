@@ -41,9 +41,11 @@ if [ "$CONFIRM" != "y" ]; then
   echo "  - lib/core/routing/path"
   echo "  - lib/core/theme"
   echo "  - lib/core/api"
+  echo "  - lib/core/env"
   echo "  - lib/core/exceptions"
   echo "  - lib/core/database"
   echo "  - lib/core/database/table"
+  echo "  - lib/core/database/migration"
   read CONFIRM
   if [ "$CONFIRM" != "y" ]; then
     echo "処理を中断しました。"; exit 0
@@ -55,8 +57,10 @@ mkdir -p lib/core/routing
 mkdir -p lib/core/routing/path
 mkdir -p lib/core/theme
 mkdir -p lib/core/api
+mkdir -p lib/core/env
 mkdir -p lib/core/exceptions
 mkdir -p lib/core/database
 mkdir -p lib/core/database/table
+mkdir -p lib/core/database/migration
 
 echo -e "${GREEN}✅ 完了: Coreディレクトリが正常に作成されました！${NC}"

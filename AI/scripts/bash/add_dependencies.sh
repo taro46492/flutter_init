@@ -56,10 +56,12 @@ if [[ "${YES}" == false ]]; then
 
 追加予定の依存関係:
   [runtime]
-    hooks_riverpod, riverpod_annotation, go_router, freezed_annotation,
-    drift, sqlite3_flutter_libs, path, dio, flutter_hooks
+    hooks_riverpod, riverpod_annotation, flutter_hooks,
+    freezed_annotation, json_annotation, go_router,
+    drift, sqlite3_flutter_libs, path_provider, path, logger
   [dev]
-    build_runner, freezed, riverpod_generator, drift_dev
+    build_runner, freezed, json_serializable, riverpod_generator,
+    drift_dev, flutter_lints
 CONF
   read -r -p "続行しますか？ [y/N] " resp
   if [[ ! "${resp}" =~ ^[yY]$ ]]; then
@@ -71,19 +73,23 @@ echo "\n[deps] Adding runtime dependencies"
 flutter pub add \
   hooks_riverpod \
   riverpod_annotation \
-  go_router \
+  flutter_hooks \
   freezed_annotation \
+  json_annotation \
+  go_router \
   drift \
   sqlite3_flutter_libs \
+  path_provider \
   path \
-  dio \
-  flutter_hooks
+  logger
 
 echo "\n[deps] Adding dev dependencies"
 flutter pub add --dev \
   build_runner \
   freezed \
+  json_serializable \
   riverpod_generator \
-  drift_dev
+  drift_dev \
+  flutter_lints
 
 echo "\n[deps] Done."

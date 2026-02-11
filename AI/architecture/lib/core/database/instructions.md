@@ -19,9 +19,19 @@ applyTo: 'lib/core/database/**'
 ## 推奨構成
 ```
 lib/core/database/
-├── database.dart        # 接続初期化・テーブル登録
-└── table/               # テーブル定義（Drift スキーマ等）
+├── database.dart        # 接続初期化・テーブル登録・マイグレーション定義
+├── table/               # テーブル定義（Drift スキーマ等）
+└── migration/           # バージョン別マイグレーションファイル
+    ├── migration_v2.dart
+    ├── migration_v3.dart
+    └── ...
 ```
+
+## マイグレーション管理
+- `migration/` にバージョンごとのマイグレーションファイルを配置
+- 命名規則: `migration_v{N}.dart`（N はスキーマバージョン番号）
+- 各ファイルにはそのバージョンでのスキーマ変更内容を記述
+- `database.dart` 内の `migration` プロパティで各バージョンのマイグレーションを登録
 
 ## import 指針
 ### 許可（例）

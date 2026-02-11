@@ -3,8 +3,8 @@
 > このファイルは、プロジェクトのディレクトリ構造とファイル命名規則を一元管理します。  
 > AIエージェントと開発者は、このファイルを参照することで構造と命名の全体像を即座に把握できます。
 
-最終更新: 2025-12-27
-バージョン: 1.0.0
+最終更新: 2026-02-11
+バージョン: 1.1.0
 
 ---
 
@@ -49,8 +49,10 @@ lib/core/
 │   └── path/             # パス定義
 ├── theme/                # テーマ設定
 ├── api/                  # HTTP クライアント
+├── env/                  # 環境変数・アプリ設定
 ├── database/             # データベース
-│   └── table/           # テーブル定義
+│   ├── table/           # テーブル定義
+│   └── migration/       # マイグレーションファイル
 └── exceptions/           # 共通例外
 ```
 
@@ -62,8 +64,10 @@ lib/core/
 | `routing/path/` | `*_paths.dart` | `feature_paths.dart` |
 | `theme/` | `app_theme.dart`, `*_theme.dart` | テーマ定義 |
 | `api/` | `http_client.dart`, `api_config.dart` | HTTPクライアント設定 |
+| `env/` | `env.dart`, `app_config.dart` | 環境変数・設定 |
 | `database/` | `database.dart` | データベース接続 |
 | `database/table/` | `*_table.dart` | `users_table.dart` |
+| `database/migration/` | `migration_v*.dart` | `migration_v2.dart` |
 | `exceptions/` | `*_exception.dart` | `network_exception.dart` |
 
 ---
@@ -365,6 +369,7 @@ lib/features/auth/
 
 | 日付 | バージョン | 変更内容 |
 |------|----------|---------|
+| 2026-02-11 | 1.1.0 | `env/`、`database/migration/` ディレクトリを追加 |
 | 2025-12-27 | 1.0.0 | 初版作成 |
 
 ---

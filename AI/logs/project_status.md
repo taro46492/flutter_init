@@ -70,8 +70,10 @@
 - [ ] routing/path/ (パス定義)
 - [ ] theme/ (テーマ設定)
 - [ ] api/ (HTTP クライアント)
+- [ ] env/ (環境変数・アプリ設定)
 - [ ] database/ (データベース)
 - [ ] database/table/ (テーブル定義)
+- [ ] database/migration/ (マイグレーション)
 - [ ] exceptions/ (共通例外)
 
 ### エントリポイント

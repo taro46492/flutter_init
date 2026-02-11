@@ -53,8 +53,10 @@ ALLOWED_PATTERNS["lib/core/routing"]=1
 ALLOWED_PATTERNS["lib/core/routing/path"]=1
 ALLOWED_PATTERNS["lib/core/theme"]=1
 ALLOWED_PATTERNS["lib/core/api"]=1
+ALLOWED_PATTERNS["lib/core/env"]=1
 ALLOWED_PATTERNS["lib/core/database"]=1
 ALLOWED_PATTERNS["lib/core/database/table"]=1
+ALLOWED_PATTERNS["lib/core/database/migration"]=1
 ALLOWED_PATTERNS["lib/core/exceptions"]=1
 
 # lib/features/ のパターン（動的にチェック）
@@ -152,7 +154,7 @@ if [ -d "$PROJECT_ROOT/lib/core" ]; then
       if [ ! -e "$item" ]; then continue; fi
       basename_item=$(basename "$item")
       
-      if [[ "$basename_item" != "table" && ! "$basename_item" =~ \.dart$ ]]; then
+      if [[ "$basename_item" != "table" && "$basename_item" != "migration" && ! "$basename_item" =~ \.dart$ ]]; then
         VIOLATIONS+=("lib/core/database/ 配下に不正な項目: lib/core/database/$basename_item")
       fi
     done

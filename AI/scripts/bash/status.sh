@@ -143,6 +143,7 @@ cmd_check() {
   CORE_ROUTING=$(check_dir_with_msg "routing" "routing/")
   CORE_THEME=$(check_dir_with_msg "theme" "theme/")
   CORE_API=$(check_dir_with_msg "api" "api/")
+  CORE_ENV=$(check_dir_with_msg "env" "env/")
   CORE_DATABASE=$(check_dir_with_msg "database" "database/")
   CORE_EXCEPTIONS=$(check_dir_with_msg "exceptions" "exceptions/")
   
@@ -208,6 +209,7 @@ cmd_check() {
   echo "  - routing/: $(echo "$CORE_ROUTING" | tail -n1)"
   echo "  - theme/: $(echo "$CORE_THEME" | tail -n1)"
   echo "  - api/: $(echo "$CORE_API" | tail -n1)"
+  echo "  - env/: $(echo "$CORE_ENV" | tail -n1)"
   echo "  - database/: $(echo "$CORE_DATABASE" | tail -n1)"
   echo "  - exceptions/: $(echo "$CORE_EXCEPTIONS" | tail -n1)"
   echo ""
@@ -412,7 +414,7 @@ cmd_snapshot() {
     echo "またはワークフローから:"
     echo ""
     echo "\`\`\`"
-    echo "/status snapshot"
+    echo "/generate_structure_snapshot"
     echo "\`\`\`"
     
   } > "$STRUCTURE_FILE"

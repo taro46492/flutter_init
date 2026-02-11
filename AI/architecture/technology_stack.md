@@ -1,23 +1,27 @@
 # 技術スタック (Technology Stack)
 
-Flutterアプリケーション開発には、以下の主要ライブラリを使用します。
+Flutterアプリケーション開発における**基盤パッケージ**の一覧です。
+ここに記載されたパッケージは、すべてのプロジェクトで共通して使用されます。
+
+> 機能・用途別の推奨パッケージは [recommended_packages.md](recommended_packages.md) を参照してください。
 
 ## 主要ライブラリ一覧
 
 | カテゴリ | 主要ライブラリ | 役割 |
 |----------|----------------|------|
-| 状態管理 | riverpod, hooks_riverpod | DIコンテナとして機能し、アプリケーション全体の状態を安全に管理する。 |
+| 状態管理 | hooks_riverpod | DIコンテナとして機能し、アプリケーション全体の状態を安全に管理する。Flutter Hooks統合版。 |
 | データモデル | freezed | イミュータブルなデータクラス（エンティティ）とユニオンを生成する。 |
 | 画面遷移 | go_router | 型安全で宣言的なパスベースのルーティングを実現する。 |
 | ローカルDB | drift | 型安全で高性能なローカルデータベースとして、オフライン対応やデータ永続化を担う。 |
 | UI補助 | flutter_hooks | ウィジェットのローカル状態を簡潔に管理するためのフックを提供する。 |
+| ログ | logger | 構造化されたログ出力を提供する。 |
 
 ## 各ライブラリの詳細
 
-### 状態管理: Riverpod
+### 状態管理: Riverpod (hooks_riverpod)
 
-- **riverpod**: 基本的な状態管理機能を提供
-- **hooks_riverpod**: Flutter Hooksと組み合わせて使用
+- **hooks_riverpod**: Riverpod + Flutter Hooks 統合パッケージ（`flutter_riverpod` を内包）
+- **riverpod_annotation**: コード生成用アノテーション（`riverpod_generator` と対で使用）
 - **特徴**:
   - 型安全な依存性注入
   - テストしやすい設計
@@ -26,7 +30,8 @@ Flutterアプリケーション開発には、以下の主要ライブラリを�
 
 ### データモデル: Freezed
 
-- **用途**: エンティティとユニオン型の生成
+- **freezed_annotation**: ランタイム用アノテーション
+- **json_annotation**: JSON シリアライゼーション用アノテーション
 - **特徴**:
   - イミュータブルなデータクラス
   - copyWithメソッドの自動生成
@@ -44,7 +49,10 @@ Flutterアプリケーション開発には、以下の主要ライブラリを�
 
 ### ローカルDB: Drift
 
-- **用途**: ローカルデータの永続化
+- **drift**: ORM / クエリビルダー
+- **sqlite3_flutter_libs**: ネイティブSQLiteバイナリ（iOS/Android向け）
+- **path_provider**: ファイルパス取得
+- **path**: パス操作ユーティリティ
 - **特徴**:
   - 型安全なクエリビルダー
   - コンパイル時のSQL検証
@@ -62,6 +70,14 @@ Flutterアプリケーション開発には、以下の主要ライブラリを�
   - 再利用可能なロジック
   - メモリリークの防止
 
+### ログ: Logger
+
+- **用途**: 構造化されたログ出力
+- **特徴**:
+  - レベル別ログ（debug, info, warning, error）
+  - 見やすいコンソール出力
+  - スタックトレース対応
+
 ## 依存関係の管理
 
 ### pubspec.yaml での設定例
@@ -72,8 +88,8 @@ dependencies:
     sdk: flutter
   
   # 状態管理
-  riverpod: ^2.4.0
   hooks_riverpod: ^2.4.0
+  riverpod_annotation: ^2.4.0
   flutter_hooks: ^0.20.0
   
   # データモデル
@@ -89,6 +105,9 @@ dependencies:
   path_provider: ^2.1.0
   path: ^1.8.0
   
+  # ログ
+  logger: ^2.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -99,16 +118,17 @@ dev_dependencies:
   json_serializable: ^6.7.0
   drift_dev: ^2.14.0
   riverpod_generator: ^2.4.0
-
+  
+  # 品質管理
+  flutter_lints: ^5.0.0
 ```
 
 ## ライブラリ選定理由
 
-### なぜRiverpodか？
-- Providerの後継として設計された
-- より型安全で、ランタイムエラーが少ない
-- テストが書きやすい
-- パフォーマンスが優秀
+### なぜ hooks_riverpod か？
+- Riverpod + Flutter Hooks を1パッケージで統合
+- `flutter_riverpod` を内包するため個別追加不要
+- Presentation層で `HookConsumerWidget` を標準採用
 
 ### なぜFreezedか？
 - ボイラープレートコードの削減
@@ -135,3 +155,8 @@ dev_dependencies:
 - ウィジェットの状態管理が簡潔
 - 再利用可能なロジック
 - メモリ管理の自動化
+
+### なぜLoggerか？
+- 開発・デバッグ効率の向上
+- レベル別のログ出力でノイズを制御
+- 本番ビルドでの無効化が容易
