@@ -77,10 +77,5 @@
 - YYYY-MM-DD: 合意版更新
 
 ## 参考・関連
-- プロセス詳細（第一段階）:
-  - `AI/instructions/new_app/001/project_rules_stage1_step1.md`
-  - `AI/instructions/new_app/001/project_rules_stage1_step2.md`
-  - `AI/instructions/new_app/001/project_rules_stage1_step3.md`
-  - `AI/instructions/new_app/001/project_rules_stage1_step4.md`
-- 上位方針: `AI/instructions/project_rules.md`
+- プロセス詳細（第一段階）: `flutter-stage1-specification` スキル
 - アーキテクチャ規約: `AI/architecture/lib/features/features_architecture.md`

@@ -16,15 +16,19 @@ UIとDomain層の橋渡しをします。
 ## ⚠️ 重要: Provider vs Notifier の責務分離
 
 ### Notifier (`3_notifiers/`) の責務
-- UIが直接関心を持つ状態の生成・更新・管理
-- UseCaseの呼び出し
-- API通信などの非同期処理（副作用）の管理
-- `@riverpod` アノテーションを使用
+- UIが直接関心を持つ状態（State）の生成、更新、管理に関する**全てのロジックをここに実装します**
+- `UseCase`の呼び出し、API通信などの非同期処理といった副作用を管理する責任を持ちます
+- `class`に`@riverpod`アノテーションを付けることで、`Notifier`本体の実装と、UIがアクセスするための`Provider`の定義を一体化させます
 
 ### Provider (`2_providers/`) の責務
-- **依存性注入のみ**
-- Repository/UseCaseのインスタンス生成
-- ビジネスロジックは含めない
+- **依存性注入Provider**: `Repository`や`UseCase`といった、アプリケーションの裏側で使われる**「部品」の依存関係を組み立てること**に特化します
+- ドメイン層のインターフェースとインフラ層の実装クラスを結びつけ、インスタンスを生成する役割を担います
+- このProviderに、UIの状態に関するロジックを記述することはありません
+
+### 自動生成されるNotifier Provider
+- `Notifier`に付けた`@riverpod`アノテーションによって**自動で生成されるProvider**です（例: `userNotifierProvider`）
+- UIと`Notifier`の実装を切り離すための、**唯一の安全なアクセスポイント（窓口）**として機能します
+- UIは常にこのProviderを介してのみ、状態を購読（`watch`）したり`Notifier`のメソッドを呼び出したりします
 
 ## 1. 状態 (`1_states/`)
 

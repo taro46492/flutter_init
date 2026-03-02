@@ -83,7 +83,6 @@ description: |
 
 - 仕様書テンプレート: `AI/document/application_specification.md`
 - 技術スタック: `AI/architecture/technology_stack.md`
-- 詳細手順: `AI/instructions/new_app/001/` 配下のファイル
 
 ## 制約事項
 

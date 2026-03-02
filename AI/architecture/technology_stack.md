@@ -88,36 +88,36 @@ dependencies:
     sdk: flutter
   
   # 状態管理
-  hooks_riverpod: ^2.4.0
+  hooks_riverpod: ^2.6.1
   riverpod_annotation: ^2.4.0
   flutter_hooks: ^0.20.0
   
   # データモデル
-  freezed_annotation: ^3.1.0
-  json_annotation: ^4.8.0
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
   
   # 画面遷移
-  go_router: ^12.0.0
+  go_router: ^15.1.3
   
   # ローカルDB
-  drift: ^2.14.0
-  sqlite3_flutter_libs: ^0.5.0
-  path_provider: ^2.1.0
-  path: ^1.8.0
+  drift: ^2.28.2
+  sqlite3_flutter_libs: ^0.5.41
+  path_provider: ^2.1.5
+  path: ^1.9.1
   
   # ログ
-  logger: ^2.4.0
+  logger: ^2.6.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   
   # コード生成
-  build_runner: ^2.4.0
-  freezed: ^3.2.3
-  json_serializable: ^6.7.0
-  drift_dev: ^2.14.0
-  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.15
+  freezed: ^3.0.6
+  json_serializable: ^6.9.5
+  drift_dev: '>=2.25.0 <2.28.2'
+  riverpod_generator: ^2.6.5
   
   # 品質管理
   flutter_lints: ^5.0.0

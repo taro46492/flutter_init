@@ -15,7 +15,7 @@ description: |
 
 | モード | 対象 | 参照 |
 |-------|------|------|
-| **モード1**: 新規アプリ開発 | ゼロから構築 | `AI/instructions/new_app/` |
+| **モード1**: 新規アプリ開発 | ゼロから構築 | `flutter-development-guide` → 各Stage Skill |
 | **モード2**: 既存アプリ（ルール使用中） | 本テンプレート準拠の既存コード | `AI/instructions/existing_app/with_rules/` |
 | **モード3**: 既存アプリ（ルール未使用） | 本テンプレート非準拠の既存コード | `AI/instructions/existing_app/without_rules/` |
 

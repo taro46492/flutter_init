@@ -119,7 +119,7 @@ description: |
 ✅ AI/architecture/technology_stack.md のライブラリ
 ✅ AI/architecture/lib/features/features_architecture.md のアーキテクチャ・命名規則
 ✅ Notifier は @riverpod アノテーションを使用
-✅ Presentation層は HookWidget / HookConsumerWidget を使用（StatefulWidget禁止）
+✅ Presentation層は StatelessWidget / HookWidget / HookConsumerWidget / ConsumerWidget を使用（StatefulWidget禁止）
 ```
 
 ## 参照ドキュメント
@@ -128,4 +128,3 @@ description: |
 - 構造計画書: `AI/document/structure_plan.md`
 - 技術スタック: `AI/architecture/technology_stack.md`
 - アーキテクチャ: `AI/architecture/lib/features/features_architecture.md`
-- 詳細手順: `AI/instructions/new_app/003/` 配下のファイル

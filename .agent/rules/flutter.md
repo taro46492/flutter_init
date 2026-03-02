@@ -16,7 +16,8 @@ trigger: always_on
 1. 新規アプリ開発モード（ゼロから構築）
    - 対象: 新規で Flutter アプリを開始するケース
    - 進行: 既存の Stage1/2/3 に厳密準拠（仕様策定 → 構造計画 → 実装）
-   - 参照: `AI/instructions/new_app/index.md`
+   - 参照: `flutter-development-guide` スキル
+   - Stage別: `flutter-stage1-specification` / `flutter-stage2-structure` / `flutter-stage3-implementation`
 
 2. 既存アプリ開発モード（このリポジトリの構造ルール使用中）
    - 対象: 既に本リポジトリの構造規約（lib/core, lib/features/...の4層）で作られている既存コード

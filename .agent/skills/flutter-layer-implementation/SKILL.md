@@ -75,8 +75,8 @@ Provider (2_providers/):
 | ディレクトリ | 責務 | 使用技術 |
 |------------|------|---------|
 | `2_pages/` | 画面ページ | HookConsumerWidget |
-| `1_widgets/1_atoms/` | 最小単位 | HookWidget |
-| `1_widgets/2_molecules/` | 複合ウィジェット | HookWidget |
+| `1_widgets/1_atoms/` | 最小単位 | StatelessWidget |
+| `1_widgets/2_molecules/` | 複合ウィジェット | StatelessWidget |
 | `1_widgets/3_organisms/` | 機能ウィジェット | HookConsumerWidget |
 
 ## 各レイヤー実装後のコマンド

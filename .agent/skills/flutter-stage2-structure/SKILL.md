@@ -137,7 +137,6 @@ lib/
 - 仕様書: `AI/document/application_specification.md`
 - アーキテクチャ: `AI/architecture/lib/features/features_architecture.md`
 - 命名規則: `AI/architecture/directory_structure_and_naming_rules.md`
-- 詳細手順: `AI/instructions/new_app/002/` 配下のファイル
 
 ## 制約事項
 

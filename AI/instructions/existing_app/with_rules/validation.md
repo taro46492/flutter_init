@@ -7,7 +7,7 @@
 - [ ] 層間依存のルール（Domain←Infra←Application←Presentation）が守られている
 
 ## モード間のコンテキスト分離
-- 本モードでは `AI/instructions/new_app/001/*, 002/*, 003/*` は参照しない
+- 本モードでは新規アプリ開発用スキル（`flutter-stage1-specification` / `flutter-stage2-structure` / `flutter-stage3-implementation`）は参照しない
 - 移行完了後に新規開発モードへ復帰する場合のみ、Stage1/2/3 を再採用
 
 ## 失敗パターンの回避
