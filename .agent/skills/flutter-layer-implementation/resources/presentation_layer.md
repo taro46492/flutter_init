@@ -28,8 +28,10 @@ Application層のNotifierを介して状態を取得・更新します。
 
 ```
 ❌ StatefulWidget の使用禁止
-✅ HookWidget を使用（状態なし）
+✅ StatelessWidget を使用（状態なし・Riverpod不要）
+✅ HookWidget を使用（Hooks使用・Riverpod不要）
 ✅ HookConsumerWidget を使用（Riverpod連携）
+✅ ConsumerWidget を使用（Riverpod連携・Hooks不要）
 ```
 
 ## 1. ページ (`2_pages/`)
@@ -83,10 +85,10 @@ class TaskListPage extends HookConsumerWidget {
 ### 実装パターン
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 /// タスク完了チェックボックス
-class TaskCheckbox extends HookWidget {
+/// 状態を持たないためStatelessWidgetを使用
+class TaskCheckbox extends StatelessWidget {
   final bool isChecked;
   final ValueChanged<bool?> onChanged;
 
@@ -111,12 +113,12 @@ class TaskCheckbox extends HookWidget {
 ### 実装パターン
 ```dart
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../1_domain/1_entities/task_entity.dart';
 import '../1_atoms/task_checkbox.dart';
 
 /// タスクリストアイテム
-class TaskListItem extends HookWidget {
+/// 状態を持たないためStatelessWidgetを使用
+class TaskListItem extends StatelessWidget {
   final TaskEntity task;
   final VoidCallback onTap;
   final ValueChanged<bool?> onCheckChanged;

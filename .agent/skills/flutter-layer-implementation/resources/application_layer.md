@@ -40,7 +40,7 @@ part 'task_state.freezed.dart';
 
 /// タスク一覧の状態
 @freezed
-class TaskListState with _$TaskListState {
+abstract class TaskListState with _$TaskListState {
   const factory TaskListState({
     /// タスク一覧
     @Default([]) List<TaskEntity> tasks,
@@ -70,28 +70,28 @@ part 'task_providers.g.dart';
 
 /// タスクローカルデータソースプロバイダ
 @riverpod
-TaskLocalDataSourceImpl taskLocalDataSource(TaskLocalDataSourceRef ref) {
+TaskLocalDataSourceImpl taskLocalDataSource(Ref ref) {
   final database = ref.watch(appDatabaseProvider);
   return TaskLocalDataSourceImpl(database);
 }
 
 /// タスクリポジトリプロバイダ
 @riverpod
-TaskRepository taskRepository(TaskRepositoryRef ref) {
+TaskRepository taskRepository(Ref ref) {
   final dataSource = ref.watch(taskLocalDataSourceProvider);
   return TaskRepositoryImpl(dataSource);
 }
 
 /// タスク取得ユースケースプロバイダ
 @riverpod
-GetTasksUseCase getTasksUseCase(GetTasksUseCaseRef ref) {
+GetTasksUseCase getTasksUseCase(Ref ref) {
   final repository = ref.watch(taskRepositoryProvider);
   return GetTasksUseCase(repository);
 }
 
 /// タスク作成ユースケースプロバイダ
 @riverpod
-CreateTaskUseCase createTaskUseCase(CreateTaskUseCaseRef ref) {
+CreateTaskUseCase createTaskUseCase(Ref ref) {
   final repository = ref.watch(taskRepositoryProvider);
   return CreateTaskUseCase(repository);
 }

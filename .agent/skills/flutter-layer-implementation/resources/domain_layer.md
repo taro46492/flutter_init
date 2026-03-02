@@ -27,7 +27,7 @@ part 'task_entity.freezed.dart';
 /// タスクエンティティ
 /// ビジネスロジックで使用するタスクのデータ構造
 @freezed
-class TaskEntity with _$TaskEntity {
+abstract class TaskEntity with _$TaskEntity {
   const factory TaskEntity({
     /// タスクID（UUID）
     required String id,
