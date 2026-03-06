@@ -63,4 +63,8 @@ windows/flutter/ephemeral/
 
 # Xcode ユーザ状態ファイル
 **/*.xcuserstate
-tmp.md
+
+# 環境変数・自動生成ファイル (envied)
+.env
+.env.*
+env.g.dart
